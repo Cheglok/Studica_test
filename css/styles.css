@@ -1,0 +1,109 @@
+/*@media (min-width:576px){.container,.container-sm{max-width:540px}}*/
+/*@media (min-width:768px){.container,.container-md,.container-sm{max-width:720px}}*/
+/*@media (min-width:992px){.container,.container-lg,.container-md,.container-sm{max-width:960px}}*/
+/*@media (min-width:1200px){.container,.container-lg,.container-md,.container-sm,.container-xl{max-width:1140px}}*/
+/*@media (min-width:1400px){.container,.container-lg,.container-md,.container-sm,.container-xl,.container-xxl{max-width:1320px}}*/
+
+.header {
+    font-family: Open Sans, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #222222;
+}
+
+.container {
+    max-width: 1216px;
+    padding: 0 32px;
+    margin: 0 auto;
+    background-color: #FFF;
+}
+
+.header__top {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 24px;
+    align-items: center;
+}
+
+.header__logo {
+    margin-right: 15px;
+}
+
+.header__location {
+    width: 196px;
+    height: 32px;
+    padding-left: 40px;
+    background-image: url("../images/location.svg");
+    background-repeat: no-repeat;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+.header__search {
+    box-sizing: border-box;
+    width: 592px;
+    height: 48px;
+    padding: 13px 8px 13px 48px;
+    border: none;
+    border-radius: 24px;
+    background-color: #F1F1F1;
+    background-image: url("../images/search.svg");
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
+    text-align: center;
+    cursor: text;
+}
+
+.header__likes {
+    display: block;
+    box-sizing: border-box;
+    width: 43px;
+    height: 32px;
+    margin-right: 10px;
+    padding: 5px 15px 5px 32px;
+    border-radius: 16px;
+    background-image: url("../images/like.svg");
+    background-repeat: no-repeat;
+    background-position: 7px 7px;
+    cursor: pointer;
+}
+
+.header__likes:hover {
+    background-color: #F1F1F1;
+}
+
+.header__user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    width: 120px;
+    height: 32px;
+    padding-left: 9px;
+    cursor: pointer;
+}
+
+.header__user:hover {
+    color: #767676;
+}
+
+.nav__list {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+}
+
+.nav__link {
+    display: block;
+    box-sizing: border-box;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav__link-active, .nav__link:hover {
+    background: #F1F1F1;
+}
