@@ -10,7 +10,8 @@
 <header class="header">
     <div class="container">
         <div class="header__top">
-            <svg class="header__menu-button" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="header__menu-button" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
                 <rect x="6" y="8" width="20" height="2" fill="#222222"/>
                 <rect x="6" y="15" width="20" height="2" fill="#222222"/>
                 <rect x="6" y="22" width="20" height="2" fill="#222222"/>
@@ -19,8 +20,8 @@
                 <img src="images/logo.svg" width="88" height="24" alt="Studica logotype" class="header__logo logo">
             </a>
             <div class="header__location location">
-                <span>Екатеринбург</span>
-                <div class="modal">
+                <span class="location__city">Любой регион</span>
+                <div class="modal visually-hidden">
                     <div class="location-form__search">
                         <input type="text" class="location-form__search-input"
                                placeholder="Регион, город, населенный пункт">
@@ -30,7 +31,8 @@
                                   fill="#A7A7A7"/>
                         </svg>
                     </div>
-                    <ul class="location-form__selected-locations selected-locations">
+                    <div class="loader"></div>
+                    <ul class="location-form__selected-locations selected-locations visually-hidden">
                         <li class="selected-locations__item">Colombo
                             <svg class="close-icon" width="14" height="14" viewBox="0 0 14 14" fill="#FFF"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -38,16 +40,9 @@
                                       fill="#FFF"/>
                             </svg>
                         </li>
-                        <li class="selected-locations__item">Colombo</li>
-                        <li class="selected-locations__item">Colombo</li>
-                        <li class="selected-locations__item">Colombo</li>
                     </ul>
-                    <ul class="location-form__available-locations available-locations">
-                        <li class="available-location__item"><span>Kyiv</span></li>
-                        <li class="available-location__item"><span>London</span></li>
-                        <li class="available-location__item"><span>London</span></li>
-                        <li class="available-location__item"><span>London</span></li>
-                        <li class="available-location__item"><span>London</span></li>
+                    <ul class="location-form__available-locations available-locations visually-hidden">
+<!--                        Здесь список областей и городов-->
                     </ul>
                     <button class="location-form__button">Сохранить</button>
                 </div>
@@ -75,6 +70,20 @@
         </nav>
     </div>
 </header>
-
+<template id="location-template" style="display: none">
+    <li class="available-location__item">
+        <h4 class="available-location__item-name"></h4>
+        <p class="available-location__item-region"></p>
+    </li>
+    <li class="selected-locations__item">
+        <span class="selected-location__item-name">Colombo</span>
+        <svg class="close-icon" width="14" height="14" viewBox="0 0 14 14" fill="#FFF"
+             xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+                  fill="#FFF"/>
+        </svg>
+    </li>
+</template>
 </body>
+<script src="js/script.js"></script>
 </html>

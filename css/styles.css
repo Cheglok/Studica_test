@@ -36,6 +36,10 @@
 
 .header__location {
     position: relative;
+}
+
+.location__city {
+    display: block;
     box-sizing: border-box;
     width: 196px;
     height: 32px;
@@ -231,6 +235,24 @@
     background: #F1F1F1;
 }
 
+.available-location__item_selected {
+    background: #F1F1F1;
+}
+
+.available-location__item-name {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.available-location__item-region {
+    display: none;
+    margin: 0;
+    font-size: 12px;
+    line-height: 20px;
+    color: #767676;
+}
+
 .location-form__button {
     width: 100%;
     color: #FFF;
@@ -264,4 +286,45 @@
     .header__location, .header__search, .header__user, .header__nav {
         display: none;
     }
+}
+
+.loader {
+    display: block;
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+}
+
+.loader:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #0656B4 transparent #0656B4 transparent;
+    animation: loader 1.2s linear infinite;
+}
+@keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
