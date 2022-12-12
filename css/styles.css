@@ -38,7 +38,7 @@
     position: relative;
 }
 
-.location__city {
+.location__list {
     display: block;
     box-sizing: border-box;
     width: 196px;
@@ -133,7 +133,7 @@
 
 .modal {
     position: absolute;
-    top: 50px;
+    top: 40px;
     left: 0;
     box-sizing: border-box;
     max-width: 384px;

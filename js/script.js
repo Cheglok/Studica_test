@@ -13,7 +13,9 @@
             ]
         }
     ];
+    let locationList = [];
 
+    let locationListElement = document.querySelector('.location__list')
     let locationElement = document.querySelector('.location__city');
     let modalElement = document.querySelector('.modal');
     let selectedLocationsElement = document.querySelector('.selected-locations');
@@ -63,6 +65,16 @@
         return newElement;
     };
 
+    const changeLocationsList = function (locationName, flag) {
+        if (flag) {
+            locationList.push(locationName);
+        } else {
+            locationName
+            //TODO удаление локации из массива локаций, ререндер списка
+        }
+
+    };
+
     const deselectLocation = function (evt) {
         evt.preventDefault();
         evt.stopPropagation();
@@ -76,10 +88,12 @@
     const addLocation = function (locationId, locationName) {
         let newSelectedLocation = renderSelectedLocation(locationId, locationName);
         newSelectedLocation.querySelector('.close-icon').addEventListener('click', deselectLocation);
+        changeLocationsList(locationName, true);
     };
 
-    const removeLocation = function (locationId) {
+    const removeLocation = function (locationId, locationName) {
         selectedLocationsElement.querySelector(`.selected-locations__item[data-id="${locationId}"]`).remove();
+        changeLocationsList(locationName, false);
     };
 
     const toggleLocation = function (evt) {
