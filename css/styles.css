@@ -170,9 +170,6 @@
 }
 
 .selected-locations {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
     margin: 0;
     padding: 0 16px;
     list-style: none;
@@ -180,9 +177,11 @@
 }
 
 .selected-locations__item {
+    display: inline-block;
     position: relative;
     box-sizing: border-box;
     height: 40px;
+    margin-right: 10px;
     padding: 9px 32px 9px 16px;
     background-color: #0656B4;
     border-radius: 20px;
