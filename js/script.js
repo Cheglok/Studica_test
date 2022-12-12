@@ -1,8 +1,19 @@
 'use strict';
-(function(){
+(function () {
     const URL = 'https://studika.ru/api/areas';
-    let locations = [];
-    let selectedLocations = [];
+    // let locations = [];
+    let locations = [{name: 'Россия', type: 'country', id: 'all', class: ''},
+        {
+            name: 'Алтайский край', id: 24, type: 'area', class: '', cities: [
+                {name: 'Барнаул', id: 15, state_id: 24, class: ''},
+                {name: 'Бийск', id: 16, state_id: 24, class: ''},
+                {name: 'Благовещенка', id: 1595, state_id: 24, class: ''},
+                {name: 'Волчиха', id: 1659, state_id: 24, class: ''},
+                {name: 'Камень-на-Оби', id: 631, state_id: 24, class: ''},
+            ]
+        }
+    ];
+
     let locationElement = document.querySelector('.location__city');
     let modalElement = document.querySelector('.modal');
     let selectedLocationsElement = document.querySelector('.selected-locations');
@@ -22,7 +33,7 @@
 
     const renderLocation = function (location, area) {
         let locationElement = locationTemplate.cloneNode(true);
-        locationElement.id = location.id;
+        locationElement.dataset.locationId = location.id;
         locationElement.querySelector('.available-location__item-name').textContent = location.name;
         if (area) {
             locationElement.querySelector('.available-location__item-region').textContent = area;
@@ -44,37 +55,39 @@
         availableLocationsElement.appendChild(fragment);
     };
 
-    const renderSelectedLocation = function (location) {
-        let selectedLocationElement = selectedLocationTemplate.cloneNode(true);
-        selectedLocationElement.dataset.id = location.id;
-        selectedLocationElement.querySelector('.selected-location__item-name').textContent = location.name;
-        return selectedLocationElement;
+    const renderSelectedLocation = function (locationId, locationName) {
+        let newElement = selectedLocationTemplate.cloneNode(true);
+        newElement.dataset.id = locationId;
+        newElement.querySelector('.selected-location__item-name').textContent = locationName;
+        selectedLocationsElement.appendChild(newElement);
+        return newElement;
     };
 
-    const renderSelectedLocations = function () {
-        selectedLocationsElement.innerHTML = '';
-        var fragment = document.createDocumentFragment();
-        selectedLocations.forEach(location => {
-            fragment.appendChild(renderSelectedLocation(location));
-        });
-        selectedLocationsElement.appendChild(fragment);
+    const deselectLocation = function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        let locationToRemove = evt.currentTarget.parentNode;
+        let id = locationToRemove.dataset.id;
+        locationToRemove.remove();
+        let locationToDeselect = availableLocationsElement.querySelector(`.available-location__item[data-location-id="${id}"]`);
+        locationToDeselect.classList.remove('available-location__item_selected');
     };
 
     const addLocation = function (locationId, locationName) {
-        let selectedLocation = {
-            id: locationId,
-            name: locationName
-        };
-        selectedLocations.push(selectedLocation);
-        renderSelectedLocations();
+        let newSelectedLocation = renderSelectedLocation(locationId, locationName);
+        newSelectedLocation.querySelector('.close-icon').addEventListener('click', deselectLocation);
+    };
+
+    const removeLocation = function (locationId) {
+        selectedLocationsElement.querySelector(`.selected-locations__item[data-id="${locationId}"]`).remove();
     };
 
     const toggleLocation = function (evt) {
-        let locationId = evt.currentTarget.id;
+        let locationId = evt.currentTarget.dataset.locationId;
         let locationName = evt.currentTarget.querySelector('.available-location__item-name').textContent;
         if (evt.currentTarget.classList.contains('available-location__item_selected')) {
             evt.currentTarget.classList.remove('available-location__item_selected');
-            // removeLocation(locationId, locationName);
+            removeLocation(locationId, locationName);
         } else {
             addLocation(locationId, locationName);
             evt.currentTarget.classList.add('available-location__item_selected');
@@ -89,7 +102,6 @@
     };
 
     const handleData = function () {
-        console.log(locations);
         selectedLocationsElement.classList.remove('visually-hidden');
         availableLocationsElement.classList.remove('visually-hidden');
         loaderElement.classList.add('visually-hidden');
@@ -113,6 +125,9 @@
                 locations = data;
                 handleData();
             });
+        } else {
+            handleData();
+            //TODO remove mock
         }
     };
 
