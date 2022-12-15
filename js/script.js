@@ -13,6 +13,7 @@
             ]
         }
     ];
+    let preparedLocations = [];
     let locationList = [];
 
     let locationListElement = document.querySelector('.location__list');
@@ -29,30 +30,26 @@
         .querySelector('.selected-locations__item');
 
     const getLocations = async function (URL) {
-        const responce = await fetch(URL, {method: 'POST'});
-        return responce.json();
+        const response = await fetch(URL, {method: 'POST'});
+        return response.json();
     };
 
-    const renderLocation = function (location, area) {
+    const renderLocation = function (location) {
         let locationListElement = locationTemplate.cloneNode(true);
         locationListElement.dataset.locationId = location.id;
         locationListElement.querySelector('.available-location__item-name').textContent = location.name;
-        if (area) {
-            locationListElement.querySelector('.available-location__item-region').textContent = area;
+        if (location.state_name) {
+            locationListElement.querySelector('.available-location__item-region').textContent = location.state_name;
             locationListElement.querySelector('.available-location__item-region').style.display = 'block';
         }
         return locationListElement;
     };
 
-    const renderLocations = function () {
-        var fragment = document.createDocumentFragment();
-        locations.forEach(location => {
+    const renderLocations = function (data) {
+        let renderData = data ? data : preparedLocations;
+        let fragment = document.createDocumentFragment();
+        renderData.forEach(location => {
             fragment.appendChild(renderLocation(location));
-            if (location.type && location.cities) {
-                location.cities.forEach(city => {
-                    fragment.appendChild(renderLocation(city, location.name));
-                })
-            }
         })
         availableLocationsElement.appendChild(fragment);
     };
@@ -67,7 +64,6 @@
     };
 
     const renderLocationsList = function () {
-        console.log('list')
         if (!locationList.length) {
             locationListElement.textContent = 'Любой регион';
         } else {
@@ -128,17 +124,35 @@
         });
     };
 
-    const searchLocation = function (str) {
-        console.log(str)
+    const makeSearch = function (str) {
+        let data = locations.slice();
+        console.log(data);
+        data.filter(el => {
+            return el.name.includes(str);
+        })
     }
 
     const addSearchHandlers = function () {
         searchElement.addEventListener('input', function (e) {
-            searchLocation(e.target.value);
+            makeSearch(e.target.value);
         })
     }
 
+    const prepareData = function () {
+        locations.forEach(location => {
+            preparedLocations.push(location);
+            if (location.type && location.cities) {
+                        location.cities.forEach(city => {
+                            city.state_name = location.name;
+                            preparedLocations.push(city);
+                        })
+                    }
+        });
+        console.log(preparedLocations);
+    };
+
     const handleData = function () {
+        prepareData();
         selectedLocationsElement.classList.remove('visually-hidden');
         availableLocationsElement.classList.remove('visually-hidden');
         loaderElement.classList.add('visually-hidden');
