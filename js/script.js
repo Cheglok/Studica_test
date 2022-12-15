@@ -37,7 +37,7 @@
     const renderLocation = function (location) {
         let locationListElement = locationTemplate.cloneNode(true);
         locationListElement.dataset.locationId = location.id;
-        locationListElement.querySelector('.available-location__item-name').textContent = location.name;
+        locationListElement.querySelector('.available-location__item-name').innerHTML = location.name;
         if (location.state_name) {
             locationListElement.querySelector('.available-location__item-region').textContent = location.state_name;
             locationListElement.querySelector('.available-location__item-region').style.display = 'block';
@@ -46,6 +46,7 @@
     };
 
     const renderLocations = function (data) {
+        availableLocationsElement.innerHTML = '';
         let renderData = data ? data : preparedLocations;
         let fragment = document.createDocumentFragment();
         renderData.forEach(location => {
@@ -125,16 +126,21 @@
     };
 
     const makeSearch = function (str) {
-        let data = locations.slice();
-        console.log(data);
-        data.filter(el => {
-            return el.name.includes(str);
+        let regExp = new RegExp(str, 'i');
+        let data = preparedLocations.slice();
+        data = data.filter(el => {
+            return el.name.toLowerCase().includes(str);
+        });
+        data = data.map(el => {
+            el.name = el.name.replace(regExp, '<span class="searched-substring">$&</span>');
+            return el;
         })
+        renderLocations(data);
     }
 
     const addSearchHandlers = function () {
         searchElement.addEventListener('input', function (e) {
-            makeSearch(e.target.value);
+            makeSearch(e.target.value.toLowerCase());
         })
     }
 
@@ -142,13 +148,12 @@
         locations.forEach(location => {
             preparedLocations.push(location);
             if (location.type && location.cities) {
-                        location.cities.forEach(city => {
-                            city.state_name = location.name;
-                            preparedLocations.push(city);
-                        })
-                    }
+                location.cities.forEach(city => {
+                    city.state_name = location.name;
+                    preparedLocations.push(city);
+                })
+            }
         });
-        console.log(preparedLocations);
     };
 
     const handleData = function () {
