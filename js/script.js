@@ -15,12 +15,12 @@
     ];
     let locationList = [];
 
-    let locationListElement = document.querySelector('.location__list')
-    let locationElement = document.querySelector('.location__city');
+    let locationListElement = document.querySelector('.location__list');
     let modalElement = document.querySelector('.modal');
     let selectedLocationsElement = document.querySelector('.selected-locations');
     let availableLocationsElement = document.querySelector('.available-locations');
     let loaderElement = document.querySelector('.loader');
+    let searchElement = document.querySelector('.location-form__search-input');
     let locationTemplate = document.querySelector('#location-template')
         .content
         .querySelector('.available-location__item');
@@ -34,14 +34,14 @@
     };
 
     const renderLocation = function (location, area) {
-        let locationElement = locationTemplate.cloneNode(true);
-        locationElement.dataset.locationId = location.id;
-        locationElement.querySelector('.available-location__item-name').textContent = location.name;
+        let locationListElement = locationTemplate.cloneNode(true);
+        locationListElement.dataset.locationId = location.id;
+        locationListElement.querySelector('.available-location__item-name').textContent = location.name;
         if (area) {
-            locationElement.querySelector('.available-location__item-region').textContent = area;
-            locationElement.querySelector('.available-location__item-region').style.display = 'block';
+            locationListElement.querySelector('.available-location__item-region').textContent = area;
+            locationListElement.querySelector('.available-location__item-region').style.display = 'block';
         }
-        return locationElement;
+        return locationListElement;
     };
 
     const renderLocations = function () {
@@ -60,19 +60,30 @@
     const renderSelectedLocation = function (locationId, locationName) {
         let newElement = selectedLocationTemplate.cloneNode(true);
         newElement.dataset.id = locationId;
+        newElement.dataset.name = locationName;
         newElement.querySelector('.selected-location__item-name').textContent = locationName;
         selectedLocationsElement.appendChild(newElement);
         return newElement;
     };
 
+    const renderLocationsList = function () {
+        console.log('list')
+        if (!locationList.length) {
+            locationListElement.textContent = 'Любой регион';
+        } else {
+            locationListElement.textContent = locationList.join(', ');
+        }
+    }
+
     const changeLocationsList = function (locationName, flag) {
         if (flag) {
             locationList.push(locationName);
         } else {
-            locationName
-            //TODO удаление локации из массива локаций, ререндер списка
+            locationList = locationList.filter(el => {
+                return el !== locationName;
+            })
         }
-
+        renderLocationsList();
     };
 
     const deselectLocation = function (evt) {
@@ -80,9 +91,11 @@
         evt.stopPropagation();
         let locationToRemove = evt.currentTarget.parentNode;
         let id = locationToRemove.dataset.id;
+        let locationName = locationToRemove.dataset.name;
         locationToRemove.remove();
         let locationToDeselect = availableLocationsElement.querySelector(`.available-location__item[data-location-id="${id}"]`);
         locationToDeselect.classList.remove('available-location__item_selected');
+        changeLocationsList(locationName, false);
     };
 
     const addLocation = function (locationId, locationName) {
@@ -109,11 +122,21 @@
     }
 
     const addLocationsHandlers = function () {
-        let locationElements = document.querySelectorAll('.available-location__item');
-        locationElements.forEach(el => {
+        let locationListElements = document.querySelectorAll('.available-location__item');
+        locationListElements.forEach(el => {
             el.addEventListener('click', toggleLocation);
-        })
+        });
     };
+
+    const searchLocation = function (str) {
+        console.log(str)
+    }
+
+    const addSearchHandlers = function () {
+        searchElement.addEventListener('input', function (e) {
+            searchLocation(e.target.value);
+        })
+    }
 
     const handleData = function () {
         selectedLocationsElement.classList.remove('visually-hidden');
@@ -121,6 +144,7 @@
         loaderElement.classList.add('visually-hidden');
         renderLocations();
         addLocationsHandlers();
+        addSearchHandlers();
     };
 
     const closeModal = function (evt) {
@@ -154,5 +178,5 @@
         }
     };
 
-    locationElement.addEventListener('click', toggleModal);
+    locationListElement.addEventListener('click', toggleModal);
 })();

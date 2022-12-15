@@ -47,6 +47,9 @@
     background-image: url("../images/location.svg");
     background-repeat: no-repeat;
     cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .header__search {
@@ -153,20 +156,24 @@
     width: 352px;
     height: 48px;
     margin-bottom: 16px;
-    padding: 12px 25px;
+    padding: 12px 35px 12px 25px;
     border: 2px solid #ABC8EA;
     border-radius: 24px;
-    color: #A7A7A7;
+    color: #222222;;
 }
 
 .location-form__search-input:active, .location-form__search-input:focus {
     outline: none;
 }
 
+.location-form__search-input::placeholder {
+    color: #A7A7A7;
+}
+
 .clear-icon {
     position: absolute;
-    top: 10px;
-    right: 17px;
+    top: 9px;
+    right: 25px;
 }
 
 .selected-locations {
