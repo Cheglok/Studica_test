@@ -37,6 +37,17 @@
         return response.json();
     };
 
+    const saveOnServer = async function (data) {
+        const response = await fetch('https://httpbin.org/post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data,
+        });
+        return response.json();
+    };
+
     const renderLocation = function (location) {
         let locationListElement = locationTemplate.cloneNode(true);
         locationListElement.dataset.locationId = location.id;
@@ -144,8 +155,10 @@
         }
     };
 
-    const  saveSelected = function () {
-        //TODO охранение в куки
+    const saveSelected = function () {
+        let data = JSON.stringify(selectedLocationList);
+        document.cookie = 'selected=' + data;
+        saveOnServer(data).then(() => console.log('Успешно сохранено на сервере'));
     };
 
     const addSearchHandlers = function () {
@@ -246,4 +259,5 @@
     };
 
     locationListElement.addEventListener('click', toggleModal);
+
 })();
