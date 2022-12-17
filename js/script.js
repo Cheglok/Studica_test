@@ -158,7 +158,7 @@
     const saveSelected = function () {
         let data = JSON.stringify(selectedLocationList);
         document.cookie = 'selected=' + data;
-        saveOnServer(data).then(() => console.log('Успешно сохранено на сервере'));
+        saveOnServer(data).then(() => alert('Успешно сохранено на сервере'));
     };
 
     const addSearchHandlers = function () {
@@ -188,12 +188,13 @@
 
     const showSelectedLocations = function () {
         selectedLocationList.forEach(el => {
-            let locationId = el.id;
-            let locationToSelect = document.querySelector(`.available-location__item[data-location-id="${locationId}"]`);
+            let locationToSelect = document.querySelector(`.available-location__item[data-location-id="${el.id}"]`);
             if (locationToSelect) {
                 locationToSelect.classList.add('available-location__item_selected');
             }
-        })
+            let newSelectedLocation = renderSelectedLocation(el.id, el.name);
+            newSelectedLocation.querySelector('.close-icon').addEventListener('click', deselectLocation);
+        });
     };
 
     const renderLocations = function (data) {
@@ -211,12 +212,12 @@
     const handleData = function () {
         if (!preparedLocations.length) {
             prepareData();
+            renderLocations();
+            addSearchHandlers();
         }
         selectedLocationsElement.classList.remove('visually-hidden');
         availableLocationsElement.classList.remove('visually-hidden');
         loaderElement.classList.add('visually-hidden');
-        renderLocations();
-        addSearchHandlers();
     };
 
     const closeModal = function (evt) {
@@ -230,8 +231,10 @@
         let matches = document.cookie.match(new RegExp(
             "(?:^|; )" + 'selected' + "=([^;]*)"
         ));
-        let selectedCookie = matches ? decodeURIComponent(matches[1]) : undefined;
-        console.log('selectedCookie', selectedCookie);
+        let selectedCookie = matches ? JSON.parse(matches[1]) : undefined;
+        if (selectedCookie) {
+            selectedLocationList = selectedCookie;
+        }
     }
 
     const openModal = function () {
@@ -240,8 +243,8 @@
         if (!locations.length) {
             getLocations(URL).then(data => {
                 locations = data;
-                handleData();
                 readCookie();
+                handleData();
             });
         } else {
             handleData();
