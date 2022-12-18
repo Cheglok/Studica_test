@@ -2,21 +2,10 @@
 (function () {
     const URL = 'https://studika.ru/api/areas';
     let locations = [];
-    // let locations = [{name: 'Россия', type: 'country', id: 'all', class: ''},
-    //     {
-    //         name: 'Алтайский край', id: 24, type: 'area', class: '', cities: [
-    //             {name: 'Барнаул', id: 15, state_id: 24, class: ''},
-    //             {name: 'Бийск', id: 16, state_id: 24, class: ''},
-    //             {name: 'Благовещенка', id: 1595, state_id: 24, class: ''},
-    //             {name: 'Родина', id: 1659, state_id: 24, class: ''},
-    //             {name: 'Камень-на-Оро', id: 631, state_id: 24, class: ''},
-    //         ]
-    //     }
-    // ];
-
     let preparedLocations = [];
     let selectedLocationList = [];
 
+    //Dom-элементы для взаимодействия
     let locationListElement = document.querySelector('.location__list');
     let modalElement = document.querySelector('.modal');
     let selectedLocationsElement = document.querySelector('.selected-locations');
@@ -25,6 +14,7 @@
     let searchElement = document.querySelector('.location-form__search-input');
     let clearSearchElement = document.querySelector('.clear-icon');
     let saveButtonElement = document.querySelector('.location-form__button');
+    //Шаблоны для создания новых элементов
     let locationTemplate = document.querySelector('#location-template')
         .content
         .querySelector('.available-location__item');
@@ -32,11 +22,13 @@
         .content
         .querySelector('.selected-locations__item');
 
+    //Получение данных с сервера
     const getLocations = async function (URL) {
         const response = await fetch(URL, {method: 'POST'});
         return response.json();
     };
 
+    //Сохранение на заглушку
     const saveOnServer = async function (data) {
         const response = await fetch('https://httpbin.org/post', {
             method: 'POST',
@@ -48,6 +40,7 @@
         return response.json();
     };
 
+    //Рендер элемента списка
     const renderLocation = function (location) {
         let locationListElement = locationTemplate.cloneNode(true);
         locationListElement.dataset.locationId = location.id;
@@ -59,6 +52,7 @@
         return locationListElement;
     };
 
+    //Рендер бейджика выбранной локации
     const renderSelectedLocation = function (locationId, locationName) {
         let newElement = selectedLocationTemplate.cloneNode(true);
         newElement.dataset.id = locationId;
@@ -68,18 +62,20 @@
         return newElement;
     };
 
+    //Рендер строки перечисления локаций
     const renderLocationsList = function () {
         if (!selectedLocationList.length) {
             locationListElement.textContent = 'Любой регион';
         } else {
-             let namesList = [];
+            let namesList = [];
             selectedLocationList.forEach(el => {
-                 namesList.push(el.name);
-             });
+                namesList.push(el.name);
+            });
             locationListElement.textContent = namesList.join(', ');
         }
     };
 
+    //Изменение строки перечисления выбранных локаций
     const changeLocationsList = function (locationId, locationName, flag) {
         if (flag) {
             selectedLocationList.push({id: locationId, name: locationName});
@@ -91,6 +87,7 @@
         renderLocationsList();
     };
 
+    //Убрать локацию из выбранных при клике по бейджику
     const deselectLocation = function (evt) {
         evt.preventDefault();
         evt.stopPropagation();
@@ -101,6 +98,7 @@
         removeLocation(locationToDeselect, locationId, locationName);
     };
 
+    //Выбрать локацию
     const addLocation = function (target, locationId, locationName) {
         target.classList.add('available-location__item_selected');
         let newSelectedLocation = renderSelectedLocation(locationId, locationName);
@@ -108,12 +106,14 @@
         changeLocationsList(locationId, locationName, true);
     };
 
+    //Снять выбор локации
     const removeLocation = function (target, locationId, locationName) {
         target.classList.remove('available-location__item_selected');
         selectedLocationsElement.querySelector(`.selected-locations__item[data-id="${locationId}"]`).remove();
         changeLocationsList(locationId, locationName, false);
     };
 
+    //Обработка клика по локации
     const toggleLocation = function (evt) {
         let locationId = evt.currentTarget.dataset.locationId;
         let locationName = evt.currentTarget.querySelector('.available-location__item-name').textContent;
@@ -124,6 +124,7 @@
         }
     }
 
+    //Навешиваем обработчики событий на все локации
     const addLocationsHandlers = function () {
         let locationListElements = document.querySelectorAll('.available-location__item');
         locationListElements.forEach(el => {
@@ -131,6 +132,7 @@
         });
     };
 
+    //Выполнить поиск по введённой подстроке
     const makeSearch = function (str) {
         let regExp = new RegExp(str, 'i');
         let data = preparedLocations.slice();
@@ -147,7 +149,8 @@
         renderLocations(markedUpData);
     };
 
-    const handleCleanElement = function (str) {
+    //Очистить строку поиска
+    const cleanSearch = function (str) {
         if (str.length) {
             clearSearchElement.classList.remove('visually-hidden');
         } else {
@@ -155,15 +158,17 @@
         }
     };
 
+    //Сохранить выбранное на сервере и в куки
     const saveSelected = function () {
         let data = JSON.stringify(selectedLocationList);
         document.cookie = 'selected=' + data;
         saveOnServer(data).then(() => alert('Успешно сохранено на сервере'));
     };
 
+    //Обработчики строки поиска
     const addSearchHandlers = function () {
         searchElement.addEventListener('input', function (e) {
-            handleCleanElement(e.target.value);
+            cleanSearch(e.target.value);
             makeSearch(e.target.value.toLowerCase());
         });
         clearSearchElement.addEventListener('click', function () {
@@ -174,6 +179,7 @@
         saveButtonElement.addEventListener('click', saveSelected);
     }
 
+    //Развернуть полученный многоуровневый список областей и городов в одноуровневый для простого поиска
     const prepareData = function () {
         locations.forEach(location => {
             preparedLocations.push(location);
@@ -186,7 +192,9 @@
         });
     };
 
+    //Показать бейджики выбранных локаций
     const showSelectedLocations = function () {
+        selectedLocationsElement.innerHTML = '';
         selectedLocationList.forEach(el => {
             let locationToSelect = document.querySelector(`.available-location__item[data-location-id="${el.id}"]`);
             if (locationToSelect) {
@@ -197,6 +205,7 @@
         });
     };
 
+    //Отрисовать весь список локаций
     const renderLocations = function (data) {
         availableLocationsElement.innerHTML = '';
         let renderData = data ? data : preparedLocations;
@@ -209,6 +218,7 @@
         addLocationsHandlers();
     };
 
+    //После получения данных с сервера запускается рендер модального окна и установка обработчиков событий
     const handleData = function () {
         if (!preparedLocations.length) {
             prepareData();
@@ -220,13 +230,16 @@
         loaderElement.classList.add('visually-hidden');
     };
 
+    //Закрытие модального окна
     const closeModal = function (evt) {
         if (!evt.target.closest('.modal')) {
             modalElement.classList.add('visually-hidden');
+            modalElement.classList.remove('modal-animated');
             document.removeEventListener('click', closeModal);
         }
     };
 
+    //Достать сохраненный выбор пользователя из куки
     const readCookie = function () {
         let matches = document.cookie.match(new RegExp(
             "(?:^|; )" + 'selected' + "=([^;]*)"
@@ -237,8 +250,10 @@
         }
     }
 
+    //Открытие модального окна
     const openModal = function () {
         modalElement.classList.remove('visually-hidden');
+        modalElement.classList.add('modal-animated');
         document.addEventListener('click', closeModal);
         if (!locations.length) {
             getLocations(URL).then(data => {
@@ -248,10 +263,10 @@
             });
         } else {
             handleData();
-            //TODO remove mock
         }
     };
 
+    //Обработчик модального окна
     const toggleModal = function (evt) {
         evt.stopPropagation();
         if (modalElement.classList.contains('visually-hidden')) {
@@ -262,5 +277,4 @@
     };
 
     locationListElement.addEventListener('click', toggleModal);
-
 })();
