@@ -5,4 +5,4 @@
 сервер-заглушку и записывается в куки, после перезагрузки страницы данные из куки восстанавливаются.
 Выполняется поиск по всему списку, по вхождении подстроки в любой части названия, совпадение выделяется
 
-![desctop](https://raw.githubusercontent.com/Cheglok/English-tochka-test/main/non-project%20files/projectPreview.gif)
+![desctop](https://raw.githubusercontent.com/Cheglok/Studica_test/main/readme-files/readme-video.gif)
