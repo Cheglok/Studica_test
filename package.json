@@ -1,0 +1,22 @@
+{
+  "name": "studica_test",
+  "version": "1.0.0",
+  "description": "test task for JS-developer vacancy",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cheglok/Studica_test.git"
+  },
+  "author": "Mikhail Cheglok",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cheglok/Studica_test/issues"
+  },
+  "homepage": "https://github.com/Cheglok/Studica_test#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
