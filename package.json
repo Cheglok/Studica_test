@@ -17,6 +17,16 @@
   },
   "homepage": "https://github.com/Cheglok/Studica_test#readme",
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.57.1"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "dependencies": {
+    "gulp-sourcemaps": "^3.0.0"
   }
 }
