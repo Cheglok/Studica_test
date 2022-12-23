@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.scss"],"names":[],"mappings":"AACA,KACE,eAFU,CAIV,QACE,mBAAA,CAIJ,EACE,sCAAA,CAAA,8BAAA","file":"style.min.css","sourcesContent":["$mainColor: blue;\r\nbody {\r\n  background: $mainColor;\r\n\r\n  h1 {\r\n    font-weight: lighter;\r\n  }\r\n}\r\n\r\na {\r\n  transition: all 0.5s ease-in-out;\r\n}\r\n"]}
