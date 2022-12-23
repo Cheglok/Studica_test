@@ -1,4 +1,4 @@
-$mainColor: blue;
+$mainColor: #ccc;
 body {
   background: $mainColor;
 
@@ -9,4 +9,8 @@ body {
 
 a {
   transition: all 0.5s ease-in-out;
+}
+
+li {
+  background: #eee;
 }
