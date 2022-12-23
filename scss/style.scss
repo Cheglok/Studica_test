@@ -1,0 +1,16 @@
+$mainColor: #ccc;
+body {
+  background: $mainColor;
+
+  h1 {
+    font-weight: lighter;
+  }
+}
+
+a {
+  transition: all 0.5s ease-in-out;
+}
+
+li {
+  background: #eee;
+}
