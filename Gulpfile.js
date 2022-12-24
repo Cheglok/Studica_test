@@ -1,9 +1,10 @@
-const {src, dest, watch} = require('gulp');
+const {src, dest, watch, parallel} = require('gulp');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
+const browserSync = require('browser-sync').create();
 
 const css_style = function () {
     return src('./scss/**/*.scss')
@@ -16,12 +17,30 @@ const css_style = function () {
         .pipe(cleanCSS())
         .pipe(rename({extname: '.min.css'}))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('./css/'));
+        .pipe(dest('./css/'))
+        .pipe(browserSync.stream());
+};
+
+const sync = function (cb) {
+    browserSync.init({
+        server: {
+            baseDir: './'
+        },
+        port: 3000
+    });
+    cb();
+};
+
+const browserReload = function (cb) {
+    browserSync.reload();
+    cb();
 }
 
-const watchSass = function () {
+const watchFiles = function () {
     watch('./scss/**/*', css_style);
-}
+    watch('./**/*.html', browserReload);
+    watch('./**/*.js', browserReload);
+};
 
-exports.default = watchSass;
+exports.default = parallel(watchFiles, sync);
 exports.css_style = css_style;
