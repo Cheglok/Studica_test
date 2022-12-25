@@ -7,7 +7,7 @@ const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync').create();
 
 const css_style = function () {
-    return src('./scss/**/*.scss')
+    return src('./scss/style.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
