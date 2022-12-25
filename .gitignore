@@ -1,2 +1,5 @@
 .idea
 node_modules
+css/style.css
+css/style.min.css
+css/style.min.css.map
