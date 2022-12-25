@@ -1,2 +1,0 @@
-*{margin:0;padding:0}.block:not(.first){background:#ccc;height:200px;width:300px;margin-bottom:20px;border:4px solid red}.first{background:#ccc;height:100px;margin-bottom:20px;border:4px solid red}#central-block{padding:30px}#central-block ul{list-style:none;display:inline-block}#central-block ul li{float:left;margin-right:10px}#central-block ul li a{color:red}#central-block a{color:#deb887}
-/*# sourceMappingURL=style.min.css.map */
