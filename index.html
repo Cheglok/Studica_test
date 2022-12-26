@@ -1,25 +1,82 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Студика</title>
     <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body>
-    <div class="block first"></div>
-    <div class="block" id="central-block">
-        <a href="#">link</a>
-        <ul class="list">
-            <li><a href="#">link</a>element - 1</li>
-            <li>element - 2</li>
-            <li>element - 3</li>
-            <li>element - 4</li>
-            <li>element - 5</li>
-        </ul>
+<header class="header">
+    <div class="container">
+        <div class="header__top">
+            <svg class="header__menu-button" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="8" width="20" height="2" fill="#222222"/>
+                <rect x="6" y="15" width="20" height="2" fill="#222222"/>
+                <rect x="6" y="22" width="20" height="2" fill="#222222"/>
+            </svg>
+            <a href="#">
+                <img src="images/logo.svg" width="88" height="24" alt="Studica logotype" class="header__logo logo">
+            </a>
+            <div class="header__location location">
+                <span class="location__list">Любой регион</span>
+                <div class="modal visually-hidden">
+                    <div class="location-form__search">
+                        <input type="text" class="location-form__search-input"
+                               placeholder="Регион, город, населенный пункт">
+                        <svg class="clear-icon visually-hidden" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23 10.41L21.59 9L16 14.59L10.41 9L9 10.41L14.59 16L9 21.59L10.41 23L16 17.41L21.59 23L23 21.59L17.41 16L23 10.41Z"
+                                  fill="#A7A7A7"/>
+                        </svg>
+                    </div>
+                    <div class="loader"></div>
+                    <ul class="location-form__selected-locations selected-locations visually-hidden">
+                        <!--Здесь список выбранных областей и городов-->
+                    </ul>
+                    <ul class="location-form__available-locations available-locations visually-hidden">
+                        <!--Здесь список областей и городов-->
+                    </ul>
+                    <button class="location-form__button">Сохранить</button>
+                </div>
+            </div>
+            <input type="text" class="search header__search"
+                   placeholder="Учебное заведение, специальность или профессия">
+            <span class="likes header__likes">1</span>
+            <div class="header__user user">
+                <span class="user__name">Екатерина</span>
+                <img src="images/avatar.jpg" width="32" height="32" alt="user avatar">
+            </div>
+        </div>
+        <nav class="nav header__nav">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="#" class="nav__link nav__link-active">Вузы</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Колледжи</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Техникумы</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Училища</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Специальности</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Профессии</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Отзывы</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Учебным заведениям</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Тест нa на профориентацию</a></li>
+            </ul>
+        </nav>
     </div>
-    <div class="block"></div>
+</header>
+<template id="location-template" style="display: none">
+    <li class="available-location__item">
+        <h4 class="available-location__item-name"></h4>
+        <p class="available-location__item-region"></p>
+    </li>
+    <li class="selected-locations__item">
+        <span class="selected-location__item-name">Colombo</span>
+        <svg class="close-icon" width="14" height="14" viewBox="0 0 14 14" fill="#FFF"
+             xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+                  fill="#FFF"/>
+        </svg>
+    </li>
+</template>
 </body>
+<script src="js/scripts.min.js"></script>
 </html>
