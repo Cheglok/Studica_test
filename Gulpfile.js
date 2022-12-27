@@ -1,4 +1,4 @@
-const {src, dest, watch, parallel} = require('gulp');
+const {src, dest, watch, parallel, series} = require('gulp');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
@@ -7,7 +7,7 @@ const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync').create();
 
 const css_style = function () {
-    return src('./scss/style.scss')
+    return src('./scss/styles.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
@@ -42,5 +42,5 @@ const watchFiles = function () {
     watch('./**/*.js', browserReload);
 };
 
-exports.default = parallel(watchFiles, sync);
+exports.default = series(css_style, parallel(watchFiles, sync));
 exports.css_style = css_style;

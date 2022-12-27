@@ -1,6 +1,21 @@
-//$bgColor: #ccc;
-
-$primaryTextColor: #222222;
-$primaryBackgroundColor: #FFF;
 $maxContainerWidth: 1216px;
-$lightGreyFill: #F1F1F1;
+
+//backgrounds
+$primaryBackgroundColor: #FFF;
+$greyOnWhiteBackgroundColor: #F1F1F1;
+$substrateBackgroundColor: #E6E6E6;
+
+//elements and texts
+$primaryTextColor: #222222;
+$descriptorColor: #767676;
+$iconColor: #A7A7A7;
+$outlineColor: #D8D8D8;
+
+//actions, conversion
+$activeColor: #0656B4;
+$buttonSecondLevelColor: #DFE9F5;
+$selectedColor: #ABC8EA;
+
+//labels
+$selectedOrErrorColor: #FF0000;
+$feedbackColor: #EFD967;
