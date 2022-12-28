@@ -4,6 +4,7 @@ const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
 const cleanCSS = require('gulp-clean-css');
+const uglify = require('gulp-uglify');
 const browserSync = require('browser-sync').create();
 
 const css_style = function () {
@@ -18,6 +19,14 @@ const css_style = function () {
         .pipe(rename({extname: '.min.css'}))
         .pipe(sourcemaps.write('./'))
         .pipe(dest('./css/'))
+        .pipe(browserSync.stream());
+};
+
+const compressJS = function () {
+    return src('./js/script.js')
+        .pipe(uglify())
+        .pipe(rename({extname: '.min.js'}))
+        .pipe(dest('./js/'))
         .pipe(browserSync.stream());
 };
 
@@ -39,8 +48,8 @@ const browserReload = function (cb) {
 const watchFiles = function () {
     watch('./scss/**/*', css_style);
     watch('./**/*.html', browserReload);
-    watch('./**/*.js', browserReload);
+    watch('./js/script.js', compressJS);
 };
 
-exports.default = series(css_style, parallel(watchFiles, sync));
+exports.default = series(css_style, compressJS, parallel(watchFiles, sync));
 exports.css_style = css_style;
